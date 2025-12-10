@@ -10,7 +10,7 @@ public class UserController1 {
 
     private List<User> users = new ArrayList<>();
     // make sure users.txt is inside the "data" folder in your project
-    private final String FILE_NAME = "data/users.txt";
+    private final String FILE_NAME = "src/data/users.txt";
 
     public UserController1() {
         loadFromFile();
