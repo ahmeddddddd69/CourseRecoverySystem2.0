@@ -21,10 +21,12 @@ public class EnrollmentController {
 
         if (student == null) return false;
 
+        // FileHelper will automatically prepend "data/"
         ArrayList<Course> allCourses =
-                CourseDataHelper.loadCourses("data/course_assessment_information.csv");
+                CourseDataHelper.loadCourses("course_assessment_information.csv");
+
         ArrayList<Grade> allGrades =
-                GradeDataHelper.loadGrades("data/student_course_grades.csv");
+                GradeDataHelper.loadGrades("student_course_grades.csv");
 
         if (allCourses == null || allCourses.isEmpty()) return false;
         if (allGrades == null || allGrades.isEmpty()) return false;
@@ -41,8 +43,10 @@ public class EnrollmentController {
     public List<Student> getStudentsNotEligible() {
 
         List<Student> result = new ArrayList<>();
+
+        // StudentDataHelper already adds "data/"
         ArrayList<Student> allStudents =
-                StudentDataHelper.loadStudents("student_information.csv"); // StudentDataHelper already adds "data/"
+                StudentDataHelper.loadStudents("student_information.csv");
 
         for (Student s : allStudents) {
             if (!isEligible(s)) {
@@ -84,8 +88,10 @@ public class EnrollmentController {
     //  PUBLIC METHOD FOR UI TO CALL
     // ==============================================================
     public int getFailedCount(String studentId) {
+
         ArrayList<Grade> allGrades =
-                GradeDataHelper.loadGrades("data/student_course_grades.csv");
+                GradeDataHelper.loadGrades("student_course_grades.csv");
+
         return countFailedCourses(studentId, allGrades);
     }
 }

@@ -1,36 +1,52 @@
 package crs.util;
 
 import crs.model.Grade;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GradeDataHelper {
 
-    public static ArrayList<Grade> loadGrades(String path) {
+    public static ArrayList<Grade> loadGrades(String filename) {
 
-        ArrayList<Grade> grades = new ArrayList<>();
-        List<String[]> rows = FileHelper.readCSV(path);
+        ArrayList<Grade> list = new ArrayList<>();
 
-        for (String[] r : rows) {
-            if (r.length < 5) continue;
+        String full = FileHelper.fixPath(filename);
 
-            double gradePoint;
-            try {
-                gradePoint = Double.parseDouble(r[3].trim());
-            } catch (NumberFormatException e) {
-                continue;
+        try (BufferedReader br = new BufferedReader(new FileReader(full))) {
+
+            String line = br.readLine(); // skip header
+
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(",");
+
+                // Your CSV has EXACTLY 4 columns:
+                // StudentID, CourseID, GradeLetter, GradePoint
+                if (p.length < 4) continue;
+
+                double gp;
+                try {
+                    gp = Double.parseDouble(p[3].trim());
+                } catch (Exception e) {
+                    continue;
+                }
+
+                // Grade constructor requires 5 parameters
+                list.add(new Grade(
+                        p[0].trim(),   // studentId
+                        p[1].trim(),   // courseId
+                        p[2].trim(),   // gradeLetter
+                        gp,            // gradePoint
+                        ""             // filler value because constructor needs 5 params
+                ));
             }
 
-            grades.add(new Grade(
-                    r[0].trim(),  // StudentID
-                    r[1].trim(),  // CourseID
-                    r[2].trim(),  // GradeLetter
-                    gradePoint,   // GradePoint
-                    r[4].trim()   // Semester
-            ));
+        } catch (Exception e) {
+            System.out.println("[ERROR] Cannot read: " + full);
+            e.printStackTrace();
         }
 
-        return grades;
+        return list;
     }
 }
+
 

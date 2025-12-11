@@ -1,41 +1,62 @@
 package crs.util;
 
 import crs.model.Course;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CourseDataHelper {
 
-    public static ArrayList<Course> loadCourses(String path) {
+    public static ArrayList<Course> loadCourses(String filename) {
 
-        ArrayList<Course> courses = new ArrayList<>();
-        List<String[]> rows = FileHelper.readCSV(path);
+        ArrayList<Course> list = new ArrayList<>();
 
-        for (String[] r : rows) {
-            if (r.length < 7) continue;
+        // FIXED: Always resolve path using FileHelper
+        String full = FileHelper.fixPath(filename);
 
-            int credits, examWeight, assignmentWeight;
+        try (BufferedReader br = new BufferedReader(new FileReader(full))) {
 
-            try {
-                credits = Integer.parseInt(r[2].trim());
-                examWeight = Integer.parseInt(r[5].trim());
-                assignmentWeight = Integer.parseInt(r[6].trim());
-            } catch (NumberFormatException e) {
-                continue;
+            String line = br.readLine(); // skip header
+
+            while ((line = br.readLine()) != null) {
+                String[] p = line.split(",");
+
+                // CSV MUST HAVE 7 COLUMNS:
+                // courseId, courseName, credits, semester, instructor, examWeight, assignmentWeight
+                if (p.length < 7) continue;
+
+                try {
+                    String courseId = p[0].trim();
+                    String courseName = p[1].trim();
+                    int credits = Integer.parseInt(p[2].trim());
+                    String semester = p[3].trim();
+                    String instructor = p[4].trim();
+                    int examWeight = Integer.parseInt(p[5].trim());
+                    int assignmentWeight = Integer.parseInt(p[6].trim());
+
+                    Course c = new Course(
+                            courseId,
+                            courseName,
+                            credits,
+                            semester,
+                            instructor,
+                            examWeight,
+                            assignmentWeight
+                    );
+
+                    list.add(c);
+
+                } catch (Exception ex) {
+                    // Skip malformed rows
+                    continue;
+                }
             }
 
-            courses.add(new Course(
-                    r[0].trim(),   // CourseID
-                    r[1].trim(),   // CourseName
-                    credits,
-                    r[3].trim(),   // Semester
-                    r[4].trim(),   // Instructor
-                    examWeight,
-                    assignmentWeight
-            ));
+        } catch (Exception e) {
+            System.out.println("[ERROR] Cannot read: " + full);
+            e.printStackTrace();
         }
 
-        return courses;
+        return list;
     }
 }
 

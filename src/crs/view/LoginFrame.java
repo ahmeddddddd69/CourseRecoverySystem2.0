@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package crs.view;
 import crs.controller.UserController1;
 import crs.model.User;
 
@@ -43,6 +43,7 @@ public class LoginFrame extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         lblUsername = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
+        btnResetPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CRS - Login");
@@ -79,6 +80,13 @@ public class LoginFrame extends javax.swing.JFrame {
         lblError.setForeground(new java.awt.Color(255, 0, 0));
         lblError.setText("  ");
 
+        btnResetPassword.setText("Reset Password");
+        btnResetPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -90,7 +98,10 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(btnResetPassword)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
@@ -100,7 +111,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(lblUsername)
                 .addGap(51, 51, 51)
                 .addComponent(lblError)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(btnResetPassword)
+                .addContainerGap())
         );
 
         getContentPane().add(mainPanel);
@@ -127,6 +140,10 @@ public class LoginFrame extends javax.swing.JFrame {
         new DashboardFrame().setVisible(true);
         this.dispose();                        
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPasswordActionPerformed
+        new PasswordResetFrame().setVisible(true);
+    }//GEN-LAST:event_btnResetPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,6 +172,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnResetPassword;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblTitle;

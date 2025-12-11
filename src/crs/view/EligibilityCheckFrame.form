@@ -138,7 +138,6 @@
         <Component class="javax.swing.JTextField" name="txtStudentId">
           <Properties>
             <Property name="columns" type="int" value="15"/>
-            <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCgpaTitle">

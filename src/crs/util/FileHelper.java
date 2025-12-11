@@ -1,83 +1,59 @@
 package crs.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList; 
+import java.util.List;
 
 public class FileHelper {
 
-    // ============================================================
-    //  ALWAYS read/write inside the data/ folder
-    // ============================================================
-    private static String fixPath(String path) {
-        return path.startsWith("data/") ? path : "data/" + path;
+    /**
+     * Always resolve a path to the top-level "data" folder.
+     *
+     * No matter what you pass:
+     *  - "student_course_grades.csv"
+     *  - "src/data/student_course_grades.csv"
+     *  - "data/student_course_grades.csv"
+     *  - "data/src/data/student_course_grades.csv"
+     *
+     * It will ALWAYS become:
+     *  - "data/student_course_grades.csv"
+     */
+    public static String fixPath(String path) {
+        if (path == null || path.isEmpty()) {
+            return path;
+        }
+
+        // Normalise slashes
+        String p = path.replace("\\", "/");
+
+        // Keep ONLY the filename (strip all folders)
+        int lastSlash = p.lastIndexOf('/');
+        if (lastSlash != -1) {
+            p = p.substring(lastSlash + 1);
+        }
+
+        // Final path: top-level data folder
+        return "data/" + p;
     }
 
-    // ============================================================
-    // 1. READ ALL LINES (for .txt files)
-    // ============================================================
+    /**
+     * Optional helper if you want to read all lines from a file.
+     */
     public static List<String> readLines(String path) {
         List<String> lines = new ArrayList<>();
+        String full = fixPath(path);
 
-        String fullPath = fixPath(path);
-
-        try (BufferedReader br = new BufferedReader(new FileReader(fullPath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(full))) {
             String line;
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
-        } catch (Exception e) {
-            System.out.println("Error reading file: " + fullPath + " → " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading CSV: " + full + " → " + e.getMessage());
         }
 
         return lines;
     }
-
-    // ============================================================
-    // 2. WRITE A LINE (for .txt files)
-    // ============================================================
-    public static void writeLine(String path, String data) {
-
-        String fullPath = fixPath(path);
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fullPath, true))) {
-            bw.write(data);
-            bw.newLine();
-        } catch (Exception e) {
-            System.out.println("Error writing file: " + fullPath + " → " + e.getMessage());
-        }
-    }
-
-    // ============================================================
-    // 3. READ CSV (for all .csv datasets)
-    // ============================================================
-    public static List<String[]> readCSV(String path) {
-        List<String[]> rows = new ArrayList<>();
-
-        String fullPath = fixPath(path);
-
-        try (BufferedReader br = new BufferedReader(new FileReader(fullPath))) {
-
-            String line;
-            boolean skipHeader = true;
-
-            while ((line = br.readLine()) != null) {
-
-                // Skip CSV header row
-                if (skipHeader) {
-                    skipHeader = false;
-                    continue;
-                }
-
-                if (line.trim().isEmpty()) continue;
-
-                rows.add(line.split(","));
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error reading CSV: " + fullPath + " → " + e.getMessage());
-        }
-
-        return rows;
-    }
 }
-

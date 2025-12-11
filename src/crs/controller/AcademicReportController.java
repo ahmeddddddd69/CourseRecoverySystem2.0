@@ -100,8 +100,21 @@ public class AcademicReportController {
         return true;
     }
 
-    private int parseSemesterNumber(String semester) {
-        String numeric = semester.replaceAll("[^0-9]", "");
-        return Integer.parseInt(numeric);
+    private int parseSemesterNumber(String raw) {
+
+    if (raw == null) return 1;
+    raw = raw.trim();
+
+    if (raw.isEmpty()) return 1;
+
+    // If format is like "Year 1" → extract number
+    try {
+        // Remove all non-digits
+        raw = raw.replaceAll("[^0-9]", "");
+        if (raw.isEmpty()) return 1; // default semester
+        return Integer.parseInt(raw);
+    } catch (Exception e) {
+        return 1; // safe fallback
     }
+}
 }

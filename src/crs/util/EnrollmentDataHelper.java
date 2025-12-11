@@ -18,14 +18,19 @@ public class EnrollmentDataHelper {
 
         for (Grade g : grades) {
 
-            String key = g.getStudentId() + "-" + g.getCourseId();
+            // FIXED: Grade uses courseCode, not courseId
+            String courseCode = g.getCourseCode();
+            String studentId = g.getStudentId();
+
+            String key = studentId + "-" + courseCode;
 
             // Prevent duplicate enrollments such as if grades repeat
             if (!uniquePairs.contains(key)) {
 
+                // Assuming Enrollment has a constructor (studentId, courseCode)
                 enrollments.add(new Enrollment(
-                        g.getStudentId(),
-                        g.getCourseId()
+                        studentId,
+                        courseCode
                 ));
 
                 uniquePairs.add(key);

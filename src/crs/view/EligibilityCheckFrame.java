@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package crs.view;
 
 import java.util.ArrayList;
 
@@ -66,7 +66,6 @@ public class EligibilityCheckFrame extends javax.swing.JFrame {
         lblStudentId.setText("Student ID:");
 
         txtStudentId.setColumns(15);
-        txtStudentId.setText(" ");
 
         lblCgpaTitle.setText("CGPA:");
 
@@ -202,15 +201,16 @@ public class EligibilityCheckFrame extends javax.swing.JFrame {
           }
           
           selectedStudent = null;
+          
           ArrayList<Student> allStudents =
                   crs.util.StudentDataHelper.loadStudents("student_information.csv");
+          
           for (Student s : allStudents) {
               if (s.getStudentId().equals(studentId)) {
                   selectedStudent = s;
                   break;
               }
           }
-          
           if (selectedStudent == null) {
               lblCgpaValue.setText("-");
               lblFailedCoursesValue.setText("-");
@@ -218,20 +218,24 @@ public class EligibilityCheckFrame extends javax.swing.JFrame {
               btnProceedEnrolment.setEnabled(false);
               return;
           }
+          var grades = GradeDataHelper.loadGrades("student_course_grades.csv");
+          var courses = CourseDataHelper.loadCourses("course_assessment_information.csv");
           
           double cgpa = CgpaHelper.calculateCgpa(
+                  
                   selectedStudent.getStudentId(),
-                  GradeDataHelper.loadGrades("data/student_course_grades.csv"),
-                  CourseDataHelper.loadCourses("data/course_assessment_information.csv")
+                  grades,
+                  courses
           );
-          
-          int failedCourses = enrollmentController.getFailedCount(selectedStudent.getStudentId());
-          boolean eligible  = enrollmentController.isEligible(selectedStudent);
-          
-          lblCgpaValue.setText(String.format("%.2f", cgpa));
-          lblFailedCoursesValue.setText(String.valueOf(failedCourses));
-          lblStatusValue.setText(eligible ? "Eligible" : "Not Eligible");
-          btnProceedEnrolment.setEnabled(eligible);
+
+                  
+                  int failedCourses = enrollmentController.getFailedCount(selectedStudent.getStudentId());
+                  boolean eligible  = enrollmentController.isEligible(selectedStudent);
+                  
+                  lblCgpaValue.setText(String.format("%.2f", cgpa));
+                  lblFailedCoursesValue.setText(String.valueOf(failedCourses));
+                  lblStatusValue.setText(eligible ? "Eligible" : "Not Eligible");
+                  btnProceedEnrolment.setEnabled(eligible);
 
     }//GEN-LAST:event_btnCheckEligibilityActionPerformed
 

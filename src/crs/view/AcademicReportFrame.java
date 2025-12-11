@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package crs.view;
 
 import crs.model.Course;
 import crs.model.Grade;
@@ -12,7 +12,7 @@ import crs.util.GradeDataHelper;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import java.io.File;
 /**
  *
  * @author oronisaha
@@ -99,6 +99,11 @@ public class AcademicReportFrame extends javax.swing.JFrame {
         });
 
         btnSendEmail.setText("Send To Email");
+        btnSendEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendEmailActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +199,53 @@ public class AcademicReportFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGeneratePdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneratePdfActionPerformed
-        // TODO add your handling code here:
+        
+        System.out.println("🟢 Generate PDF button clicked");
+        String studentId = txtStudentId.getText().trim();
+        String semester = cmbSemester.getSelectedItem().toString();
+        String yearText = txtYear.getText().trim();
+        
+        if (studentId.isEmpty() || yearText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter Student ID and Year.");
+            return;
+        }
+        
+        int year;
+        try {
+            year = Integer.parseInt(yearText.replaceAll("[^0-9]", ""));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid year format.");
+            return;
+        }
+        var students = crs.util.StudentDataHelper.loadStudents("student_information.csv");
+        crs.model.Student selectedStudent = null;
+        for (var s : students) {
+            if (s.getStudentId().equalsIgnoreCase(studentId)) {
+                selectedStudent = s;
+                break;
+            }
+        }
+        if (selectedStudent == null) {
+            JOptionPane.showMessageDialog(this, "Student not found.");
+            return;
+        }
+        
+        crs.controller.AcademicReportController arc = new crs.controller.AcademicReportController();
+        boolean ok = arc.generateReport(selectedStudent, semester, year);
+        
+        if (ok) {
+            JOptionPane.showMessageDialog(this, 
+                    "PDF generated successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                    "Failed to generate PDF.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }//GEN-LAST:event_btnGeneratePdfActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -251,6 +302,71 @@ public class AcademicReportFrame extends javax.swing.JFrame {
 
     
     }//GEN-LAST:event_btnLoadCoursesActionPerformed
+
+    private void btnSendEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendEmailActionPerformed
+        System.out.println("📧 Send Email button clicked");
+    
+    String studentId = txtStudentId.getText().trim();
+    String semester = cmbSemester.getSelectedItem().toString();
+    String yearText = txtYear.getText().trim();
+    
+    if (studentId.isEmpty() || yearText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter Student ID and Year.");
+        return;
+    }
+    
+    int year;
+    try {
+        year = Integer.parseInt(yearText.replaceAll("[^0-9]", ""));
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Invalid year format.");
+        return;
+    }
+
+    // find the student
+    var students = crs.util.StudentDataHelper.loadStudents("student_information.csv");
+    crs.model.Student selectedStudent = null;
+    for (var s : students) {
+        if (s.getStudentId().equalsIgnoreCase(studentId)) {
+            selectedStudent = s;
+            break;
+        }
+    }
+    if (selectedStudent == null) {
+        JOptionPane.showMessageDialog(this, "Student not found.");
+        return;
+    }
+
+    // generate the PDF (same as Generate PDF button)
+    crs.controller.AcademicReportController arc = new crs.controller.AcademicReportController();
+    boolean ok = arc.generateReport(selectedStudent, semester, year);
+
+    if (!ok) {
+        JOptionPane.showMessageDialog(this, "Failed to generate PDF.");
+        return;
+    }
+
+    // 🔥 IMPORTANT: build the SAME filename as PdfGenerator
+    // Console shows: reports/S002_Sem1_2.pdf
+    String semDigits = semester.replaceAll("[^0-9]", "");
+    int semNum = semDigits.isEmpty() ? 1 : Integer.parseInt(semDigits);
+
+    String relativePdfPath = "reports/" + studentId + "_Sem" + semNum + "_" + year + ".pdf";
+    System.out.println("Computed PDF (relative): " + relativePdfPath);
+
+    try {
+        crs.util.EmailSender.sendEmailWithAttachment(
+                selectedStudent.getEmail(),
+                "Your Academic Report",
+                "Dear student,\n\nPlease find your academic report attached.\n\nRegards,\nCRS System",
+                relativePdfPath     // <-- NO FileHelper here
+        );
+        JOptionPane.showMessageDialog(this, "Email sent successfully!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Failed to send email:\n" + e.getMessage());
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnSendEmailActionPerformed
 
     /**
      * @param args the command line arguments
