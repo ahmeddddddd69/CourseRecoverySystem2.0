@@ -5,6 +5,7 @@
 package crs.view;
 import crs.controller.UserController1;
 import crs.model.User;
+import crs.util.Session;
 
 /**
  *
@@ -137,6 +138,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }
         User user = userController.getUser(username);
         System.out.println("Logged in as: " + user.getRole());
+        Session.currentUserRole = user.getRole();
         new DashboardFrame().setVisible(true);
         this.dispose();                        
     }//GEN-LAST:event_btnLoginActionPerformed

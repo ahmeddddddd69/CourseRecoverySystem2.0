@@ -4,6 +4,8 @@
  */
 package crs.view;
 
+import crs.util.Session;
+import javax.swing.JOptionPane;
 /**
  *
  * @author oronisaha
@@ -18,9 +20,36 @@ public class DashboardFrame extends javax.swing.JFrame {
     public DashboardFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        applyRolePermissions(); 
     }
     
 
+    private void applyRolePermissions() {
+
+    String role = Session.currentUserRole;  // get logged-in role
+
+    System.out.println("Logged in as: " + role);
+
+    if (role == null) return;
+
+    if (role.equalsIgnoreCase("CourseAdministrator")) {
+        // Disable buttons they should NOT access
+        btnUserManagement.setEnabled(false);
+        btnEligibilityCheck.setEnabled(false);
+        btnAcademicReport.setEnabled(false);
+
+        // Optional: grey them out visually
+        btnUserManagement.setText("User Management (No Access)");
+        btnEligibilityCheck.setText("Eligibility Check (No Access)");
+        btnAcademicReport.setText("Academic Report (No Access)");
+    }
+    if (role.equalsIgnoreCase("AcademicOfficer")) {
+
+            btnRecoveryPlan.setEnabled(false);
+            btnRecoveryPlan.setText("Course Recovery Plan (No Access)");
+        }
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,28 +148,46 @@ public class DashboardFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUserManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserManagementActionPerformed
-           System.out.println("User Management clicked"); 
-           new UserManagementFrame().setVisible(true);  // open User Management
+           if (Session.currentUserRole.equalsIgnoreCase("CourseAdministrator")) {
+               JOptionPane.showMessageDialog(this, "Access Denied: Course Administrators cannot manage users.");
+               return;
+           }
+           new UserManagementFrame().setVisible(true);
            this.dispose();                              // close Dashboard
     
     }//GEN-LAST:event_btnUserManagementActionPerformed
 
     private void btnEligibilityCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEligibilityCheckActionPerformed
+        
+        if (Session.currentUserRole != null && Session.currentUserRole.equalsIgnoreCase("CourseAdministrator")) {
+        JOptionPane.showMessageDialog(this, "Access Denied: Course Administrators cannot check eligibility.");
+        return;
+        }
         new EligibilityCheckFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnEligibilityCheckActionPerformed
 
     private void btnRecoveryPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecoveryPlanActionPerformed
+        if (Session.currentUserRole.equalsIgnoreCase("AcademicOfficer")) {
+        JOptionPane.showMessageDialog(this, "Access Denied: Academic Officers cannot access Course Recovery Plan.");
+        return;
+        }
         new CourseRecoveryPlanFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRecoveryPlanActionPerformed
 
     private void btnAcademicReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcademicReportActionPerformed
+        if (Session.currentUserRole.equalsIgnoreCase("CourseAdministrator")) {
+        JOptionPane.showMessageDialog(this, "Access Denied: Course Administrators cannot view academic reports.");
+        return;
+        }
         new AcademicReportFrame().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAcademicReportActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        Session.currentUserRole = null;
+        Session.currentUsername = null;
         new LoginFrame().setVisible(true);  // go back to login
         this.dispose();                     // close Dashboard
     }//GEN-LAST:event_btnLogoutActionPerformed

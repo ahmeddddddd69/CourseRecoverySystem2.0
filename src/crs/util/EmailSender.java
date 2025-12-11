@@ -16,7 +16,7 @@ public class EmailSender {
             String username = props.getProperty("username");
             String password = props.getProperty("password");
 
-            Session session = Session.getInstance(props,
+            javax.mail.Session session = javax.mail.Session.getInstance(props,
                     new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
@@ -53,7 +53,7 @@ public class EmailSender {
             throw new Exception("Email username/password not found in config.");
         }
 
-        Session session = Session.getInstance(props,
+        javax.mail.Session session = javax.mail.Session.getInstance(props,
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
