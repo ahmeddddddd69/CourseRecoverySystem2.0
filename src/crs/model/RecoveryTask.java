@@ -3,13 +3,13 @@ package crs.model;
 public class RecoveryTask {
 
     private int week;              // Week number of recovery plan
-    private String description;    // e.g., "Review lectures", "Meet instructor"
+    private String description;    // Review by the lecturers
     private String status;         // Pending / Completed
 
     public RecoveryTask(int week, String description) {
         this.week = week;
         this.description = description;
-        this.status = "Pending";   // Default status
+        this.status = "Pending";   
     }
 
     // --- Getters & Setters ---

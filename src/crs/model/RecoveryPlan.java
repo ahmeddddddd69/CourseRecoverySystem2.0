@@ -9,7 +9,7 @@ public class RecoveryPlan {
     private ArrayList<RecoveryTask> tasks = new ArrayList<>();
     private String status = "Ongoing";
 
-    // 🔥 NEW: Attempt tracking (starts at 1)
+    
     private int attemptCount = 1;
 
     public RecoveryPlan(String studentId, String courseCode) {
@@ -17,9 +17,7 @@ public class RecoveryPlan {
         this.courseCode = courseCode;
     }
 
-    // ------------------------
-    // Task Management
-    // ------------------------
+   
     public void addTask(RecoveryTask t) {
         tasks.add(t);
     }
@@ -28,9 +26,7 @@ public class RecoveryPlan {
         return tasks;
     }
 
-    // ------------------------
-    // Status
-    // ------------------------
+   
     public void completePlan() {
         status = "Completed";
     }
@@ -39,14 +35,12 @@ public class RecoveryPlan {
         return status;
     }
 
-    // ⭐ FIX: Add this method so the controller can update status
+  
     public void setStatus(String status) {
         this.status = status;
     }
 
-    // ------------------------
-    // Basic Info
-    // ------------------------
+    
     public String getStudentId() {
         return studentId;
     }
@@ -55,9 +49,7 @@ public class RecoveryPlan {
         return courseCode;
     }
 
-    // ------------------------
-    // 🔥 Attempt Logic
-    // ------------------------
+    
     public int getAttemptCount() {
         return attemptCount;
     }

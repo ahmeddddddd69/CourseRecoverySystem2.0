@@ -10,18 +10,17 @@ public class CourseDataHelper {
 
         ArrayList<Course> list = new ArrayList<>();
 
-        // FIXED: Always resolve path using FileHelper
+       
         String full = FileHelper.fixPath(filename);
 
         try (BufferedReader br = new BufferedReader(new FileReader(full))) {
 
-            String line = br.readLine(); // skip header
+            String line = br.readLine(); 
 
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",");
 
-                // CSV MUST HAVE 7 COLUMNS:
-                // courseId, courseName, credits, semester, instructor, examWeight, assignmentWeight
+             
                 if (p.length < 7) continue;
 
                 try {
@@ -46,7 +45,7 @@ public class CourseDataHelper {
                     list.add(c);
 
                 } catch (Exception ex) {
-                    // Skip malformed rows
+                   
                     continue;
                 }
             }

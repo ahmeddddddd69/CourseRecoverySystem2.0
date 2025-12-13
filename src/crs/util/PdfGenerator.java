@@ -21,18 +21,14 @@ public class PdfGenerator {
             PdfWriter.getInstance(doc, new FileOutputStream(path));
             doc.open();
 
-            // -------------------------------
-            // TITLE
-            // -------------------------------
+            
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD);
             Paragraph title = new Paragraph("Academic Performance Report", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             doc.add(title);
             doc.add(new Paragraph(" "));
 
-            // -------------------------------
-            // STUDENT INFO
-            // -------------------------------
+            
             doc.add(new Paragraph("Student Name : " +
                     report.getStudent().getFirstName() + " " +
                     report.getStudent().getLastName()));
@@ -41,13 +37,11 @@ public class PdfGenerator {
             doc.add(new Paragraph("Semester     : " + report.getSemester()));
             doc.add(new Paragraph(" "));
 
-            // -------------------------------
-            // TABLE SETUP
-            // -------------------------------
+            
             PdfPTable table = new PdfPTable(new float[]{1.5f, 3.5f, 1f, 1f, 1f});
             table.setWidthPercentage(100);
 
-            // Table Header
+           
             Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
 
             table.addCell(new PdfPCell(new Phrase("Course Code", headerFont)));
@@ -56,16 +50,14 @@ public class PdfGenerator {
             table.addCell(new PdfPCell(new Phrase("Grade", headerFont)));
             table.addCell(new PdfPCell(new Phrase("Grade Point", headerFont)));
 
-            // -------------------------------
-            // COURSE ROWS WITH GRADES
-            // -------------------------------
+           
             for (Course c : report.getCourses()) {
 
                 table.addCell(c.getCourseId());
                 table.addCell(c.getCourseName());
                 table.addCell(String.valueOf(c.getCredits()));
 
-                // Find matching grade for this course
+               
                 Grade matchedGrade = null;
                 for (Grade g : report.getGrades()) {
                     if (g.getCourseId().equalsIgnoreCase(c.getCourseId())) {
@@ -74,7 +66,7 @@ public class PdfGenerator {
                     }
                 }
 
-                // Extract grade + gradePoint
+                
                 String gradeLetter = (matchedGrade != null)
                         ? matchedGrade.getGradeLetter()
                         : "N/A";
@@ -90,9 +82,7 @@ public class PdfGenerator {
             doc.add(table);
             doc.add(new Paragraph(" "));
 
-            // -------------------------------
-            // CGPA (2 decimal places)
-            // -------------------------------
+           
             String formattedCgpa = String.format("%.2f", report.getCgpa());
             Paragraph cgpaText = new Paragraph("CGPA : " + formattedCgpa);
             cgpaText.setSpacingBefore(10);

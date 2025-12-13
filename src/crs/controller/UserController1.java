@@ -9,23 +9,19 @@ import java.time.LocalDateTime;
 public class UserController1 {
 
     private List<User> users = new ArrayList<>();
-    // make sure users.txt is inside the "data" folder in your project
+
     private final String FILE_NAME = "src/data/users.txt";
 
     public UserController1() {
         loadFromFile();
     }
 
-    // =============================
-    //  GET ALL USERS
-    // =============================
+    
     public List<User> getAllUsers() {
         return new ArrayList<>(users);
     }
 
-    // =============================
-    //  GET USER BY USERNAME
-    // =============================
+  
     public User getUser(String username) {
         for (User u : users) {
             if (u.getUsername().equals(username)) {
@@ -35,9 +31,7 @@ public class UserController1 {
         return null;
     }
 
-    // =============================
-    //  ADD USER
-    // =============================
+   
     public boolean addUser(String username, String password, String role) {
         // username already exists?
         if (getUser(username) != null) {
@@ -51,7 +45,7 @@ public class UserController1 {
         if ("AcademicOfficer".equalsIgnoreCase(role)) {
             u = new AcademicOfficer(username, password, lastLogin, lastLogout);
         } else {
-            // anything else treated as CourseAdministrator
+          
             u = new CourseAdministrator(username, password, lastLogin, lastLogout);
         }
 
@@ -60,21 +54,19 @@ public class UserController1 {
         return true;
     }
 
-    // =============================
-    //  UPDATE USER
-    // =============================
+ 
     public boolean updateUser(String username, String newPassword, String newRole) {
         User u = getUser(username);
         if (u == null) {
             return false;
         }
 
-        // update password if provided
+        
         if (newPassword != null && !newPassword.isEmpty()) {
             u.setPassword(newPassword);
         }
 
-        // update role if provided
+      
         if (newRole != null && !newRole.isEmpty()) {
             String lastLogin = u.getLastLoginBinary();
             String lastLogout = u.getLastLogoutBinary();
@@ -94,24 +86,20 @@ public class UserController1 {
         return true;
     }
 
-    // =============================
-    //  DEACTIVATE USER
-    // =============================
+    
     public boolean deactivateUser(String username) {
         User u = getUser(username);
         if (u == null) {
             return false;
         }
 
-        // simple way: mark role as "Inactive"
+        
         u.setRole("Inactive");
         saveToFile();
         return true;
     }
 
-    // =============================
-    //  VALIDATE LOGIN
-    // =============================
+   
     public boolean validateUser(String username, String password) {
         User user = getUser(username);
 
@@ -123,26 +111,20 @@ public class UserController1 {
         return false;
     }
 
-    // =============================
-    //  UPDATE LOGIN TIMESTAMP (BINARY)
-    // =============================
+ 
     private void updateLoginBinary(User user) {
         String now = LocalDateTime.now().toString();
         user.setLastLoginBinary(toBinary(now));
     }
 
-    // =============================
-    //  UPDATE LOGOUT TIMESTAMP (BINARY)
-    // =============================
+    
     public void updateLogoutBinary(User user) {
         String now = LocalDateTime.now().toString();
         user.setLastLogoutBinary(toBinary(now));
         saveToFile();
     }
 
-    // =============================
-    //  CONVERT TEXT → BINARY
-    // =============================
+   
     private String toBinary(String text) {
         StringBuilder binary = new StringBuilder();
         for (char c : text.toCharArray()) {
@@ -152,9 +134,7 @@ public class UserController1 {
         return binary.toString().trim();
     }
 
-    // =============================
-    //  SAVE USERS TO FILE
-    // =============================
+   
     private void saveToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (User u : users) {
@@ -171,9 +151,7 @@ public class UserController1 {
         }
     }
 
-    // =============================
-    //  LOAD USERS FROM FILE
-    // =============================
+    
     private void loadFromFile() {
         File file = new File(FILE_NAME);
         if (!file.exists()) return;

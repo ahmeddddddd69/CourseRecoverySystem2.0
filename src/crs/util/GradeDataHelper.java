@@ -19,8 +19,7 @@ public class GradeDataHelper {
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",");
 
-                // Your CSV has EXACTLY 4 columns:
-                // StudentID, CourseID, GradeLetter, GradePoint
+             
                 if (p.length < 4) continue;
 
                 double gp;
@@ -30,13 +29,13 @@ public class GradeDataHelper {
                     continue;
                 }
 
-                // Grade constructor requires 5 parameters
+               
                 list.add(new Grade(
-                        p[0].trim(),   // studentId
-                        p[1].trim(),   // courseId
-                        p[2].trim(),   // gradeLetter
-                        gp,            // gradePoint
-                        ""             // filler value because constructor needs 5 params
+                        p[0].trim(),  
+                        p[1].trim(),   
+                        p[2].trim(),  
+                        gp,           
+                        ""             
                 ));
             }
 

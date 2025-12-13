@@ -14,14 +14,12 @@ import java.util.List;
 
 public class EnrollmentController {
 
-    // ==============================================================
-    //  CHECK ELIGIBILITY
-    // ==============================================================
+    
     public boolean isEligible(Student student) {
 
         if (student == null) return false;
 
-        // FileHelper will automatically prepend "data/"
+      
         ArrayList<Course> allCourses =
                 CourseDataHelper.loadCourses("course_assessment_information.csv");
 
@@ -37,9 +35,7 @@ public class EnrollmentController {
         return cgpa >= 2.0 && failedCourses <= 3;
     }
 
-    // ==============================================================
-    //  GET STUDENTS NOT ELIGIBLE
-    // ==============================================================
+   
     public List<Student> getStudentsNotEligible() {
 
         List<Student> result = new ArrayList<>();
@@ -57,9 +53,7 @@ public class EnrollmentController {
         return result;
     }
 
-    // ==============================================================
-    //  ENROLL IF ELIGIBLE
-    // ==============================================================
+    
     public boolean enrollIfEligible(Student student) {
 
         if (!isEligible(student)) return false;
@@ -68,9 +62,7 @@ public class EnrollmentController {
         return true;
     }
 
-    // ==============================================================
-    //  COUNT FAILED COURSES (PRIVATE)
-    // ==============================================================
+    
     private int countFailedCourses(String studentId, ArrayList<Grade> allGrades) {
 
         int failed = 0;
@@ -84,9 +76,7 @@ public class EnrollmentController {
         return failed;
     }
 
-    // ==============================================================
-    //  PUBLIC METHOD FOR UI TO CALL
-    // ==============================================================
+  
     public int getFailedCount(String studentId) {
 
         ArrayList<Grade> allGrades =

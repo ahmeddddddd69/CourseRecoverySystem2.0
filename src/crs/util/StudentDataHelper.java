@@ -10,18 +10,15 @@ public class StudentDataHelper {
 
         ArrayList<Student> list = new ArrayList<>();
 
-        // Always resolve path using FileHelper so it works on Mac/Windows
+        
         String full = FileHelper.fixPath(filename);
 
         try (BufferedReader br = new BufferedReader(new FileReader(full))) {
 
-            String line = br.readLine(); // skip header
-
+            String line = br.readLine(); 
             while ((line = br.readLine()) != null) {
                 String[] p = line.split(",");
 
-                // Your CSV has 6 columns:
-                // studentId, firstName, lastName, major, year, email
                 if (p.length < 6) continue;
 
                 Student s = new Student(

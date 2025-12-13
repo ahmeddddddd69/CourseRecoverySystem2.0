@@ -24,28 +24,24 @@ public class Course {
         this.assignmentWeight = assignmentWeight;
     }
 
-    // ================================
-    // REQUIRED BY MANY PARTS OF THE UI
-    // ================================
+   
 
-    /** Course Code getter used everywhere */
+    
     public String getCourseCode() {
         return courseId;
     }
 
-    /** Course Title getter used in Academic Report */
+    
     public String getCourseTitle() {
         return courseName;
     }
 
-    /** Credit Hours getter used in Academic Report */
+    
     public int getCreditHours() {
         return credits;
     }
 
-    // =================================
-    // OPTIONAL GETTERS FOR OTHER MODULES
-    // =================================
+
 
     public String getCourseId() {
         return courseId;

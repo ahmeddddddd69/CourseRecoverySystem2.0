@@ -7,12 +7,11 @@ import java.util.ArrayList;
 public class CgpaHelper {
 
     /**
-     * Calculates CGPA for a given student.
-     *
-     * @param studentId ID of the student
-     * @param grades    All loaded grade records
-     * @param courses   All loaded course records
-     * @return CGPA value
+     * CGPA calculation 
+     * @param studentId 
+     * @param courses   
+     * @param grades    
+     
      */
     public static double calculateCgpa(String studentId,
                                        ArrayList<Grade> grades,
@@ -23,14 +22,14 @@ public class CgpaHelper {
 
         for (Grade g : grades) {
 
-            // Only calculate for this student
+       
             if (!g.getStudentId().equals(studentId))
                 continue;
 
-            // Grade.java uses COURSE CODE, not courseId
+            
             String courseCode = g.getCourseCode();  // FIXED
 
-            // Match course by courseCode
+      
             Course course = findCourse(courses, courseCode);
             if (course == null)
                 continue;
@@ -38,7 +37,7 @@ public class CgpaHelper {
             int credits = course.getCredits();
             double gradePoint = g.getGradePoint();
 
-            // Ignore invalid grade points
+            
             if (gradePoint < 0)
                 continue;
 
@@ -52,12 +51,10 @@ public class CgpaHelper {
         return totalPoints / totalCredits;
     }
 
-    /**
-     * Finds a course by courseCode (NOT courseId)
-     */
+    
     private static Course findCourse(ArrayList<Course> courses, String courseCode) {
         for (Course c : courses) {
-            if (c.getCourseCode().equals(courseCode)) {  // FIXED
+            if (c.getCourseCode().equals(courseCode)) {  
                 return c;
             }
         }

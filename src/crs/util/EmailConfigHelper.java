@@ -4,16 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 
-/**
- * Loads SMTP configuration from config/email.properties
- */
+
 public class EmailConfigHelper {
 
     public static Properties loadconfig() {
         Properties p = new Properties();
 
         try {
-            // Load configuration file
+           
             FileInputStream fis = new FileInputStream("config/email.properties");
             p.load(fis);
             System.out.println("✔ Email configuration loaded successfully.");

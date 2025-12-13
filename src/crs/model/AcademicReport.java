@@ -4,17 +4,15 @@ import java.util.List;
 
 public class AcademicReport {
 
-    private Student student;          // Student information
-    private String semester;          // Semester (e.g., "Semester 1")
-    private int year;                 // Academic year
+    private Student student;          // The Student information
+    private String semester;          // their Semester 
+    private int year;                 // their Academic year
     private List<Course> courses;     // Courses taken in this semester
     private List<Grade> grades;       // Grades for those courses
 
     private double cgpa;              // Cumulative GPA
 
-    // ---------------------------------------------------------
-    // Constructor
-    // ---------------------------------------------------------
+   
     public AcademicReport(Student student, String semester, int year,
                           List<Course> courses, List<Grade> grades, double cgpa) {
 
@@ -26,9 +24,7 @@ public class AcademicReport {
         this.cgpa = cgpa;
     }
 
-    // ---------------------------------------------------------
-    // Getters
-    // ---------------------------------------------------------
+
     public Student getStudent() {
         return student;
     }

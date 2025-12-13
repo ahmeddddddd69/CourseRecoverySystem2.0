@@ -6,7 +6,7 @@ public class Grade {
     private String courseId;
     private String gradeLetter;
     private double gradePoint;
-    private String semester;   // NEW FIELD
+    private String semester;   
 
     public Grade(String studentId, String courseId, 
                  String gradeLetter, double gradePoint,

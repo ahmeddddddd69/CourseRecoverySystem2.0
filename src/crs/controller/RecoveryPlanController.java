@@ -15,12 +15,9 @@ public class RecoveryPlanController {
         loadFromFile();
     }
 
-    // ========================================================
-    // CREATE RECOVERY PLAN (ATTEMPT STARTS AT 1)
-    // ========================================================
     public boolean createRecoveryPlan(String studentId, String courseCode) {
 
-        // Prevent duplicates
+     
         RecoveryPlan existing = getRecoveryPlan(studentId, courseCode);
         if (existing != null) return false;
 
@@ -30,9 +27,7 @@ public class RecoveryPlanController {
         return true;
     }
 
-    // ========================================================
-    // GET ALL PLANS FOR A STUDENT
-    // ========================================================
+    
     public List<RecoveryPlan> getRecoveryPlansByStudent(String studentId) {
         List<RecoveryPlan> result = new ArrayList<>();
         for (RecoveryPlan plan : recoveryPlans) {
@@ -43,9 +38,7 @@ public class RecoveryPlanController {
         return result;
     }
 
-    // ========================================================
-    // UPDATE PLAN STATUS
-    // ========================================================
+    
     public boolean updatePlanStatus(String studentId, String courseCode, String status) {
         RecoveryPlan plan = getRecoveryPlan(studentId, courseCode);
         if (plan != null) {
@@ -60,9 +53,7 @@ public class RecoveryPlanController {
         return false;
     }
 
-    // ========================================================
-    // ADD TASK TO A PLAN
-    // ========================================================
+   
     public boolean addTask(String studentId, String courseCode, int week, String description) {
         RecoveryPlan plan = getRecoveryPlan(studentId, courseCode);
         if (plan == null) return false;
@@ -72,9 +63,7 @@ public class RecoveryPlanController {
         return true;
     }
 
-    // ========================================================
-    // INCREMENT ATTEMPT (MAX 3)
-    // ========================================================
+    
     public boolean incrementPlanAttempt(String studentId, String courseCode) {
         RecoveryPlan plan = getRecoveryPlan(studentId, courseCode);
         if (plan == null) return false;
@@ -84,9 +73,7 @@ public class RecoveryPlanController {
         return true;
     }
 
-    // ========================================================
-    // GET PLAN
-    // ========================================================
+    
     private RecoveryPlan getRecoveryPlan(String studentId, String courseCode) {
         for (RecoveryPlan plan : recoveryPlans) {
             if (plan.getStudentId().equals(studentId) &&
@@ -96,9 +83,7 @@ public class RecoveryPlanController {
         }
         return null;
     }
-        // ========================================================
-    // REMOVE TASK FROM A PLAN
-    // ========================================================
+        
     public boolean removeTask(String studentId, String courseCode, int week) {
         RecoveryPlan plan = getRecoveryPlan(studentId, courseCode);
         if (plan == null) return false;
@@ -123,10 +108,7 @@ public class RecoveryPlanController {
     }
 
 
-    // ========================================================
-    // SAVE FULL PLAN DATA
-    // (FORMAT: studentId,courseCode,status,attempt,taskCount,task1Week|task1Desc|task1Status;task2... )
-    // ========================================================
+    
     private void saveToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
 
@@ -154,9 +136,7 @@ public class RecoveryPlanController {
         }
     }
 
-    // ========================================================
-    // LOAD FULL PLAN DATA BACK INTO OBJECTS
-    // ========================================================
+   
     private void loadFromFile() {
         File file = new File(FILE_NAME);
         if (!file.exists()) return;
@@ -170,7 +150,7 @@ public class RecoveryPlanController {
                 if (p.length >= 4) {
                     RecoveryPlan plan = new RecoveryPlan(p[0], p[1]);
                     plan.setStatus(p[2]);
-                    plan.incrementAttempt();  // attempt starts at 1, so set proper count
+                    plan.incrementAttempt();  
                     int attempt = Integer.parseInt(p[3]);
                     while (plan.getAttemptCount() < attempt)
                         plan.incrementAttempt();

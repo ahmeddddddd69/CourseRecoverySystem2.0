@@ -4,7 +4,7 @@ public class Assessment {
 
     private String studentId;
     private String courseId;
-    private String assessmentType;  // Exam or Assignment
+    private String assessmentType;  
     private String gradeLetter;
     private double gradePoint;
 

@@ -2,7 +2,7 @@ package crs.model;
 
 public class Student {
 
-    // Fields (match your CSV)
+  
     public String studentId;
     private String firstName;
     private String lastName;
@@ -10,7 +10,7 @@ public class Student {
     private String year;
     private String email;
 
-    // Constructor
+    
     public Student(String studentId, String firstName, String lastName,
                    String major, String year, String email) {
         this.studentId = studentId;
@@ -21,7 +21,7 @@ public class Student {
         this.email = email;
     }
 
-    // Getters
+   
     public String getStudentId() {
         return studentId;
     }
@@ -46,7 +46,7 @@ public class Student {
         return email;
     }
 
-    // Setters
+   
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
@@ -71,7 +71,7 @@ public class Student {
         this.email = email;
     }
 
-    // Helpful for printing
+    
     @Override
     public String toString() {
         return studentId + " - " + firstName + " " + lastName;

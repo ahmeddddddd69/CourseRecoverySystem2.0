@@ -9,7 +9,7 @@ import javax.mail.internet.*;
 
 public class EmailSender {
 
-    // Simple email without attachment (keep if used elsewhere)
+   
     public static void sendEmail(String to, String subject, String body) {
         try {
             Properties props = EmailConfigHelper.loadconfig();
@@ -37,7 +37,7 @@ public class EmailSender {
         }
     }
 
-    // Email WITH attachment
+  
     public static void sendEmailWithAttachment(String to,
                                                String subject,
                                                String body,
@@ -61,7 +61,7 @@ public class EmailSender {
                     }
                 });
 
-        // ✅ Use the path EXACTLY as passed in (e.g. "reports/S001_Sem1_2.pdf")
+       
         System.out.println("EmailSender: attachmentPath = " + attachmentPath);
         File file = new File(attachmentPath);
         System.out.println("EmailSender: absolute = " + file.getAbsolutePath());
@@ -75,11 +75,11 @@ public class EmailSender {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
         message.setSubject(subject);
 
-        // Text part
+        
         MimeBodyPart textPart = new MimeBodyPart();
         textPart.setText(body);
 
-        // Attachment part
+        
         MimeBodyPart attachmentPart = new MimeBodyPart();
         attachmentPart.setDataHandler(new DataHandler(new FileDataSource(file)));
         attachmentPart.setFileName(file.getName());
