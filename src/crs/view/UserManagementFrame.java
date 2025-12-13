@@ -18,26 +18,22 @@ public class UserManagementFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UserManagementFrame.class.getName());
 
     private UserController1 userController;
-    /**
-     * Creates new form UserManagementFrame
-     */
+   
 public UserManagementFrame() {
         initComponents();
         setLocationRelativeTo(null);
 
-        // Initialise controller and load users into table
+        
         userController = new UserController1();
         loadUsersIntoTable();
 
-        // Clear placeholder text
+        
         txtName.setText("");
         txtRole.setText("");
         txtPassword.setText("");
     }
 
-    /**
-     * Load all users from controller into JTable
-     */
+    
     private void loadUsersIntoTable() {
         DefaultTableModel model = (DefaultTableModel) tblUsers.getModel();
         model.setRowCount(0);
@@ -307,7 +303,7 @@ public UserManagementFrame() {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(() -> new UserManagementFrame().setVisible(true));
     }
 

@@ -23,9 +23,7 @@ public class EligibilityCheckFrame extends javax.swing.JFrame {
 
     private crs.controller.EnrollmentController enrollmentController;
     private Student selectedStudent;
-    /**
-     * Creates new form EligibilityCheckFrame
-     */
+    
     public EligibilityCheckFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -278,7 +276,7 @@ public class EligibilityCheckFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(() -> new EligibilityCheckFrame().setVisible(true));
     }
 

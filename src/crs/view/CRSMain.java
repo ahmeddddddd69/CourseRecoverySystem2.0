@@ -10,7 +10,7 @@ package crs.view;
  */
 public class CRSMain {
     public static void main(String[] args) {
-        // Use Swing's Event Dispatch Thread
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

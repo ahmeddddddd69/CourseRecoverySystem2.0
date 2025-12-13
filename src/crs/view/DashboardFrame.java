@@ -14,9 +14,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardFrame.class.getName());
 
-    /**
-     * Creates new form DashboardFrame
-     */
+   
     public DashboardFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -26,19 +24,19 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     private void applyRolePermissions() {
 
-    String role = Session.currentUserRole;  // get logged-in role
+    String role = Session.currentUserRole;  
 
     System.out.println("Logged in as: " + role);
 
     if (role == null) return;
 
     if (role.equalsIgnoreCase("CourseAdministrator")) {
-        // Disable buttons they should NOT access
+        
         btnUserManagement.setEnabled(false);
         btnEligibilityCheck.setEnabled(false);
         btnAcademicReport.setEnabled(false);
 
-        // Optional: grey them out visually
+        
         btnUserManagement.setText("User Management (No Access)");
         btnEligibilityCheck.setText("Eligibility Check (No Access)");
         btnAcademicReport.setText("Academic Report (No Access)");
@@ -153,7 +151,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                return;
            }
            new UserManagementFrame().setVisible(true);
-           this.dispose();                              // close Dashboard
+           this.dispose();                             
     
     }//GEN-LAST:event_btnUserManagementActionPerformed
 
@@ -188,8 +186,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         Session.currentUserRole = null;
         Session.currentUsername = null;
-        new LoginFrame().setVisible(true);  // go back to login
-        this.dispose();                     // close Dashboard
+        new LoginFrame().setVisible(true);  
+        this.dispose();                     
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**

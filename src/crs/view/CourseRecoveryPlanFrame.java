@@ -27,9 +27,7 @@ public class CourseRecoveryPlanFrame extends javax.swing.JFrame {
 
     private RecoveryPlanController recoveryController;
     private Student selectedStudent;
-    /**
-     * Creates new form CourseRecoveryPlanFrame
-     */
+    
     public CourseRecoveryPlanFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -38,9 +36,7 @@ public class CourseRecoveryPlanFrame extends javax.swing.JFrame {
         selectedStudent = null;
     }
 
-        // ============================
-    // HELPER: Load failed components
-    // ============================
+     
     private void loadFailedComponents() {
         DefaultTableModel model = (DefaultTableModel) tblFailedComponents.getModel();
         model.setRowCount(0);
@@ -64,9 +60,7 @@ public class CourseRecoveryPlanFrame extends javax.swing.JFrame {
         }
     }
 
-    // ============================
-    // HELPER: Load recovery tasks
-    // ============================
+    
     private void loadRecoveryTasks() {
         DefaultTableModel model = (DefaultTableModel) tblRecoveryTasks.getModel();
         model.setRowCount(0);
@@ -409,10 +403,7 @@ public class CourseRecoveryPlanFrame extends javax.swing.JFrame {
         if (ok) {
             JOptionPane.showMessageDialog(this, "Task added.");
             loadRecoveryTasks();
-        // Optional clear:
-        // txtCourse.setText("");
-        // txtWeek.setText("");
-        // txtTaskDescription.setText("");
+        
         } else {
             JOptionPane.showMessageDialog(this, "Could not add task.");
         }

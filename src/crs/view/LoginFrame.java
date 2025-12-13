@@ -16,9 +16,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFrame.class.getName());
     private UserController1 userController;
 
-    /**
-     * Creates new form LoginFrame
-     */
+    
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);
@@ -168,7 +166,7 @@ public class LoginFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+       
         java.awt.EventQueue.invokeLater(() -> new LoginFrame().setVisible(true));
     }
 
